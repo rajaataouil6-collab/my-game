@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>لعبة رجاء</title>
+
+<style>
+body {
+font-family: Arial, sans-serif;
+direction: rtl;
+text-align: center;
+background: #f8e9f0;
+padding: 30px;
+}
+
+.game {
+max-width: 500px;
+margin: auto;
+background: white;
+padding: 30px;
+border-radius: 20px;
+}
+
+h1 {
+color: #a40b47;
+}
+
+button {
+display: block;
+width: 100%;
+padding: 15px;
+margin: 12px 0;
+border: none;
+border-radius: 10px;
+background: #a40b47;
+color: white;
+font-size: 18px;
+cursor: pointer;
+}
+
+button:hover {
+opacity: 0.8;
+}
+
+#result {
+font-size: 20px;
+font-weight: bold;
+margin: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+<h1>🎮 لعبة رجاء</h1>
+
+<h2 id="question"></h2>
+
+<div id="answers"></div>
+
+<p id="result"></p>
+
+<p id="score"></p>
+
+</div>
+
+<script>
+
+const questions = [
+{
+question: "ما اسم زوج رجاء؟",
+answers: ["محمد", "سفيان"],
+correct: 1
+},
+
+{
+question: "هل رجاء ممكن تتعلم البرمجة؟",
+answers: ["نعم", "لا"],
+correct: 0
+},
+
+{
+question: "لماذا اختارت رجاء تعلم البرمجة؟",
+answers: ["لأنها عندها فراغ", "لأنها جد مشغولة"],
+correct: 1
+}
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function showQuestion() {
+
+document.getElementById("result").innerHTML = "";
+
+let q = questions[currentQuestion];
+
+document.getElementById("question").innerHTML = q.question;
+
+let answersDiv = document.getElementById("answers");
+
+answersDiv.innerHTML = "";
+
+q.answers.forEach((answer, index) => {
+
+let button = document.createElement("button");
+
+button.innerHTML = answer;
+
+button.onclick = function() {
+checkAnswer(index);
+};
+
+answersDiv.appendChild(button);
+
+});
+
+document.getElementById("score").innerHTML =
+"السؤال " + (currentQuestion + 1) + " من " + questions.length;
+}
+
+function checkAnswer(index) {
+
+let q = questions[currentQuestion];
+
+if (index === q.correct) {
+
+document.getElementById("result").innerHTML =
+"🎉 إجابة صحيحة!";
+
+score++;
+
+} else {
+
+document.getElementById("result").innerHTML =
+"❌ إجابة خاطئة!";
+
+}
+
+setTimeout(nextQuestion, 1000);
+}
+
+function nextQuestion() {
+
+currentQuestion++;
+
+if (currentQuestion < questions.length) {
+
+showQuestion();
+
+} else {
+
+document.getElementById("question").innerHTML =
+"🎊 انتهت اللعبة!";
+
+document.getElementById("answers").innerHTML = "";
+
+document.getElementById("result").innerHTML =
+"نتيجتك: " + score + " / " + questions.length;
+
+document.getElementById("score").innerHTML = "";
+
+}
+}
+
+showQuestion();
+
+</script>
+
+</body>
+</html>
